@@ -192,9 +192,9 @@ def build_rss_feed(curated_articles, area):
     build an RSS feed with feedgen.
     """
     fg = FeedGenerator()
-    #fg.title(config.FEED_TITLE + f" - {area}")
+    fg.title(f"{area} " + config.FEED_TITLE)
     fg.link(href=config.BASE_FEED_LINK+f"{area.lower()}_feed.xml", rel="self")
-    #fg.description(config.FEED_DESCRIPTION)
+    fg.description(config.FEED_DESCRIPTION)
     fg.language("en")
 
     for article in curated_articles:
