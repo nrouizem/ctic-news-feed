@@ -1,0 +1,50 @@
+name: Update News Feed
+
+on:
+  schedule:
+    # This cron runs daily at midnight UTC (choose whatever schedule you want)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    # Allows you to manually trigger the workflow from the GitHub Actions tab
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'  # or whichever version you need
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run the Python script
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}   # or any other secret keys needed
+        run: |
+          python main.py
+
+      - name: Commit and push changes to gh-pages branch
+        if: success()
+        run: |
+          # Configure Git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Switch to gh-pages branch
+          git checkout gh-pages || git checkout -b gh-pages
+
+          # Copy the newly generated RSS files from 'output/' into the gh-pages branch
+          cp -R output/* ./
+
+          # Add, commit, and push if there are changes
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Automated RSS Update"
+          git push origin gh-pages
