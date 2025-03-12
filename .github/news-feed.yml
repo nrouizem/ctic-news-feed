@@ -1,50 +1,41 @@
-name: Update News Feed
+name: Deploy RSS Feeds
 
 on:
+  push:
+    branches: [ "master" ]
+  # Optionally run on a schedule too:
   schedule:
-    # This cron runs daily at midnight UTC (choose whatever schedule you want)
-    - cron: '0 0 * * *'
-  workflow_dispatch:
-    # Allows you to manually trigger the workflow from the GitHub Actions tab
+    - cron: "0 0 * * *"  # runs daily at midnight
 
 jobs:
-  build-and-publish:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
+      - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up Python 3
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # or whichever version you need
+          python-version: "3.12"  # or your preferred version
 
       - name: Install dependencies
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run the Python script
+      - name: Run the feed script
         env:
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}   # or any other secret keys needed
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           python main.py
 
-      - name: Commit and push changes to gh-pages branch
-        if: success()
-        run: |
-          # Configure Git
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Switch to gh-pages branch
-          git checkout gh-pages || git checkout -b gh-pages
-
-          # Copy the newly generated RSS files from 'output/' into the gh-pages branch
-          cp -R output/* ./
-
-          # Add, commit, and push if there are changes
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Automated RSS Update"
-          git push origin gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          # The branch that hosts your site:
+          publish_branch: gh-pages
+          # The folder your script generated:
+          publish_dir: ./output
