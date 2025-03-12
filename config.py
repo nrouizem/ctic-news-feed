@@ -1,3 +1,4 @@
+import os
 
 # A list of RSS feed URLs you'd like to scrape.
 RSS_FEEDS = [
@@ -7,6 +8,8 @@ RSS_FEEDS = [
     "https://endpts.com/feed/",
     # Add more relevant feeds...
 ]
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 # Keywords to help filter biopharma news (optional)
 KEYWORDS = ["biopharma", "FDA", "drug", "clinical trial", "vaccine", "oncology"]
