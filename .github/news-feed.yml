@@ -6,6 +6,7 @@ on:
   # Optionally run on a schedule too:
   schedule:
     - cron: "0 0 * * *"  # runs daily at midnight
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -34,7 +35,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GIT_TOKEN }}
           # The branch that hosts your site:
           publish_branch: gh-pages
           # The folder your script generated:
