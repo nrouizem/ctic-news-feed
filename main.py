@@ -1,5 +1,4 @@
 import feedparser
-import openai
 from openai import OpenAI
 import time
 from feedgen.feed import FeedGenerator
@@ -8,12 +7,8 @@ import re
 import concurrent.futures
 import json
 import os
-import sqlite3
-
-# Import our config
 import config
 
-# Import the DB helper functions from above (or paste them here directly):
 from db import init_db, store_article, get_all_articles
 
 client = OpenAI(
@@ -137,7 +132,6 @@ def strip_html_tags(raw_html):
 def process_feed(feed_url):
     """
     Process a single feed URL, parse the entries, and store them in the DB.
-    No area-based filtering here! We can do that separately when building feeds.
     """
     print(f"Fetching {feed_url}")
     parsed_feed = feedparser.parse(feed_url)
@@ -152,8 +146,6 @@ def process_feed(feed_url):
             continue
 
         feed_summary = strip_html_tags(feed_summary)
-
-        # Summarize
         ai_summary = summarize_text(feed_summary)
         if not ai_summary:
             ai_summary = feed_summary[:250] + "..."
@@ -207,21 +199,15 @@ def build_rss_feed(curated_articles, area):
     return fg
 
 def main():
-    # 1. Initialize DB if needed
     init_db("articles.db")
 
-    # 2. Fetch & summarize new articles from each feed, store them in DB
     fetch_and_store_articles()
 
-    # 3. Get all articles from the DB
     all_articles = get_all_articles("articles.db")
     if not all_articles:
         print("No articles found in database.")
         return
 
-    # 4. Build area-based feeds (on-the-fly classification)
-    #    Here you can do the area classification now, so you can change it anytime.
-    #    For example:
     kw_dict = {}
     for area in config.AREAS:
         kw_dict[area] = kw_from_area(area)

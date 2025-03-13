@@ -1,6 +1,5 @@
 import os
 
-# A list of RSS feed URLs you'd like to scrape.
 RSS_FEEDS = [
     "https://www.fiercebiotech.com/rss.xml",
     "https://www.biopharmadive.com/feeds/news/",
@@ -11,14 +10,11 @@ RSS_FEEDS = [
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-# Keywords to help filter biopharma news (optional)
+# Keywords to help filter biopharma news
 KEYWORDS = ["biopharma", "FDA", "drug", "clinical trial", "vaccine", "oncology"]
 AREAS = ["Ophthalmology", "Immunology", "Oncology", "CNS"]
 
-# Path where we'll write the final RSS feed
 OUTPUT_FEED_PATH = "output/custom_feed.xml"
-
-# Basic info for the feed (title, link, description)
 FEED_TITLE = ""
 FEED_LINK = "https://nrouizem.github.io/test/custom_feed.xml"
 BASE_FEED_LINK = "https://nrouizem.github.io/test/"
