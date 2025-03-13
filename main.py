@@ -87,14 +87,12 @@ def kw_from_area(area):
 
 def summarize_text(text):
     try:
-        time.sleep(10)
         prompt = (
-            "Please summarize the following article in 2 sentences. If the article contains "
-            "any mention of business deals, partnerships, mergers, or acquisitons, please highlight those."
-            "If none exist, summarize the article normally. The purpose "
-            "is to directly put this summary in a news feed, so the summary should be engaging while being "
-            "completely accurate to the article. "
-            "Provide only the 2-sentence summary (with a focus on deals if applicable), and nothing else.\n\n"
+            "Please summarize the following article in exactly two sentences. If it "
+            "mentions any business deals, partnerships, mergers, or acquisitions, include "
+            "those in the summary. If none are present, summarize it without referencing "
+            "the absence of deals. Your summary should be accurate, concise, and engaging, "
+            "suitable for a news feed. Provide only the two-sentence summary and nothing else.\n\n"
             f"{text}\n\n"
         )
         completion = client.chat.completions.create(
