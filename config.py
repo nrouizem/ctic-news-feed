@@ -19,7 +19,7 @@ AREAS = ["Ophthalmology", "Immunology", "Oncology", "CNS"]
 OUTPUT_FEED_PATH = "output/custom_feed.xml"
 
 # Basic info for the feed (title, link, description)
-FEED_TITLE = "News Feed"
+FEED_TITLE = ""
 FEED_LINK = "https://nrouizem.github.io/test/custom_feed.xml"
 BASE_FEED_LINK = "https://nrouizem.github.io/test/"
 FEED_DESCRIPTION = "Daily curated & summarized biopharma news."
