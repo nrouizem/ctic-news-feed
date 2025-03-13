@@ -5,7 +5,9 @@ RSS_FEEDS = [
     "https://www.biopharmadive.com/feeds/news/",
     "https://www.biospace.com/drug-development.rss",
     "https://endpts.com/feed/",
-    # Add more relevant feeds...
+    "https://pharmaphorum.com/rssfeed/news-and-features",
+    "https://www.pharmaceutical-technology.com/feed/",
+    "https://www.drugdiscoverytrends.com/feed/",
 ]
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
