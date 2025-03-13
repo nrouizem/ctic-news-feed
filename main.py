@@ -89,9 +89,9 @@ def summarize_text(text):
     try:
         time.sleep(10)
         prompt = (
-            "Please summarize the following article in 2 sentences, "
-            "focusing on any mention of business deals, partnerships, mergers, or "
-            "acquisitions. If none exist, summarize the article normally. The purpose "
+            "Please summarize the following article in 2 sentences. If the article contains "
+            "any mention of business deals, partnerships, mergers, or acquisitons, please highlight those."
+            "If none exist, summarize the article normally. The purpose "
             "is to directly put this summary in a news feed, so the summary should be engaging while being "
             "completely accurate to the article. "
             "Provide only the 2-sentence summary (with a focus on deals if applicable), and nothing else.\n\n"
