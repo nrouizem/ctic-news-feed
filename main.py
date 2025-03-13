@@ -12,12 +12,9 @@ import config
 from db import init_db, store_article, get_all_articles
 
 client = OpenAI(
-    # for deepseek
-    #base_url="https://openrouter.ai/api/v1",
     api_key=config.OPENAI_API_KEY,
 )
 
-#model = "deepseek/deepseek-r1:free"
 model = "gpt-4o-mini"
 
 def is_relevant_article(title, summary, keywords):
@@ -167,7 +164,6 @@ def process_feed(feed_url):
 def fetch_and_store_articles():
     """
     For each feed, process it and store in the DB.
-    This replaces your previous approach of returning area-based data.
     """
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(config.RSS_FEEDS)) as executor:
         futures = [executor.submit(process_feed, feed_url) 
@@ -178,8 +174,7 @@ def fetch_and_store_articles():
 
 def build_rss_feed(curated_articles, area):
     """
-    Same as before: given a list of articles relevant to `area`,
-    build an RSS feed with feedgen.
+    Given a list of articles relevant to `area`, build an RSS feed with feedgen.
     """
     fg = FeedGenerator()
     fg.title(f"{area}" + config.FEED_TITLE)
